@@ -3,21 +3,11 @@ extern crate serde;
 
 use reqwest::Error;
 use serde::Deserialize;
+use crate::handledb::models::StreamerRecord;
 
 #[derive(Deserialize, Debug)]
-pub struct StreamerRecord {
-    viewers: u32,
-    followersgained: u32,
-    rownum: u32,
-    id: u32,
-    logo: String,
-    twitchurl: String,
-    url: String,
-    displayname: String,
-}
-#[derive(Deserialize, Debug)]
 pub struct Data {
-    data: Vec<StreamerRecord>,
+    pub data: Vec<StreamerRecord>,
 }
 
 pub async fn get_data_from_request() -> Result<Data, Error> {
