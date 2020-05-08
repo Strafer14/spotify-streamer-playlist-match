@@ -2,6 +2,7 @@ mod schema;
 pub(crate) mod models;
 
 use diesel::prelude::*;
+use diesel::result::Error;
 use diesel::pg::PgConnection;
 use dotenv::dotenv;
 use std::env;
@@ -17,11 +18,10 @@ pub fn establish_connection() -> PgConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-pub fn create_post(conn: &PgConnection, new_streamer_record: &StreamerRecord) -> StreamerRecord {
+pub fn create_post(conn: &PgConnection, new_streamer_record: &StreamerRecord) -> Result<StreamerRecord, Error> {
     use schema::streamer_records;
 
     diesel::insert_into(streamer_records::table)
         .values(new_streamer_record)
         .get_result(conn)
-        .expect("Error saving new post")
 }
